@@ -211,29 +211,32 @@
 </span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a><span class="sd">    :param port:</span>
 </span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a><span class="sd">    :return:</span>
 </span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a>    <span class="n">socketio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span>
-</span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a>
-</span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a>
-</span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">5000</span><span class="p">):</span>
-</span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a>    <span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a><span class="sd">    启动入口</span>
-</span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a><span class="sd">    :param host: 0.0.0.0</span>
-</span><span id="L-141"><a href="#L-141"><span class="linenos">141</span></a><span class="sd">    :param port: 默认5000端口</span>
-</span><span id="L-142"><a href="#L-142"><span class="linenos">142</span></a><span class="sd">    :return:</span>
-</span><span id="L-143"><a href="#L-143"><span class="linenos">143</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-144"><a href="#L-144"><span class="linenos">144</span></a>    <span class="k">try</span><span class="p">:</span>
-</span><span id="L-145"><a href="#L-145"><span class="linenos">145</span></a>        <span class="n">check_port</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span>
-</span><span id="L-146"><a href="#L-146"><span class="linenos">146</span></a>        <span class="n">pool</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</span><span id="L-147"><a href="#L-147"><span class="linenos">147</span></a>        <span class="n">pool</span><span class="o">.</span><span class="n">apply_async</span><span class="p">(</span><span class="n">start_web</span><span class="p">,</span> <span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">))</span>
-</span><span id="L-148"><a href="#L-148"><span class="linenos">148</span></a>        <span class="n">pool</span><span class="o">.</span><span class="n">apply_async</span><span class="p">(</span><span class="n">open_url</span><span class="p">,</span> <span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">))</span>
-</span><span id="L-149"><a href="#L-149"><span class="linenos">149</span></a>        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a>        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
-</span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a>    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-</span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a>        <span class="c1"># 退出时恢复手机充电状态</span>
-</span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a>        <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">getDeviceIds</span><span class="p">():</span>
-</span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a>            <span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;dumpsys battery set status 2&#39;</span>
-</span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a>            <span class="n">adb</span><span class="o">.</span><span class="n">shell</span><span class="p">(</span><span class="n">cmd</span><span class="o">=</span><span class="n">cmd</span><span class="p">,</span> <span class="n">deviceId</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
-</span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Stop solox server success&#39;</span><span class="p">)</span>
+</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a>        <span class="n">socketio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span>
+</span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a>    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+</span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;stop socketio success&#39;</span><span class="p">)</span>
+</span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a>    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+</span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a>        <span class="k">pass</span>
+</span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a>
+</span><span id="L-141"><a href="#L-141"><span class="linenos">141</span></a>
+</span><span id="L-142"><a href="#L-142"><span class="linenos">142</span></a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">5000</span><span class="p">):</span>
+</span><span id="L-143"><a href="#L-143"><span class="linenos">143</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-144"><a href="#L-144"><span class="linenos">144</span></a><span class="sd">    启动入口</span>
+</span><span id="L-145"><a href="#L-145"><span class="linenos">145</span></a><span class="sd">    :param host: 0.0.0.0</span>
+</span><span id="L-146"><a href="#L-146"><span class="linenos">146</span></a><span class="sd">    :param port: 默认5000端口</span>
+</span><span id="L-147"><a href="#L-147"><span class="linenos">147</span></a><span class="sd">    :return:</span>
+</span><span id="L-148"><a href="#L-148"><span class="linenos">148</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-149"><a href="#L-149"><span class="linenos">149</span></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a>        <span class="n">check_port</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span>
+</span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a>        <span class="n">pool</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a>        <span class="n">pool</span><span class="o">.</span><span class="n">apply_async</span><span class="p">(</span><span class="n">start_web</span><span class="p">,</span> <span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">))</span>
+</span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a>        <span class="n">pool</span><span class="o">.</span><span class="n">apply_async</span><span class="p">(</span><span class="n">open_url</span><span class="p">,</span> <span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">))</span>
+</span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a>        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a>        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a>    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+</span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;stop solox server success&#39;</span><span class="p">)</span>
+</span><span id="L-158"><a href="#L-158"><span class="linenos">158</span></a>    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+</span><span id="L-159"><a href="#L-159"><span class="linenos">159</span></a>        <span class="k">pass</span>
 </span></pre></div>
 
 
@@ -482,7 +485,12 @@
 </span><span id="start_web-132"><a href="#start_web-132"><span class="linenos">132</span></a><span class="sd">    :param port:</span>
 </span><span id="start_web-133"><a href="#start_web-133"><span class="linenos">133</span></a><span class="sd">    :return:</span>
 </span><span id="start_web-134"><a href="#start_web-134"><span class="linenos">134</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="start_web-135"><a href="#start_web-135"><span class="linenos">135</span></a>    <span class="n">socketio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span>
+</span><span id="start_web-135"><a href="#start_web-135"><span class="linenos">135</span></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="start_web-136"><a href="#start_web-136"><span class="linenos">136</span></a>        <span class="n">socketio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span>
+</span><span id="start_web-137"><a href="#start_web-137"><span class="linenos">137</span></a>    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+</span><span id="start_web-138"><a href="#start_web-138"><span class="linenos">138</span></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;stop socketio success&#39;</span><span class="p">)</span>
+</span><span id="start_web-139"><a href="#start_web-139"><span class="linenos">139</span></a>    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+</span><span id="start_web-140"><a href="#start_web-140"><span class="linenos">140</span></a>        <span class="k">pass</span>
 </span></pre></div>
 
 
@@ -511,26 +519,24 @@
 
     </div>
     <a class="headerlink" href="#main"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="main-138"><a href="#main-138"><span class="linenos">138</span></a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">5000</span><span class="p">):</span>
-</span><span id="main-139"><a href="#main-139"><span class="linenos">139</span></a>    <span class="sd">&quot;&quot;&quot;</span>
-</span><span id="main-140"><a href="#main-140"><span class="linenos">140</span></a><span class="sd">    启动入口</span>
-</span><span id="main-141"><a href="#main-141"><span class="linenos">141</span></a><span class="sd">    :param host: 0.0.0.0</span>
-</span><span id="main-142"><a href="#main-142"><span class="linenos">142</span></a><span class="sd">    :param port: 默认5000端口</span>
-</span><span id="main-143"><a href="#main-143"><span class="linenos">143</span></a><span class="sd">    :return:</span>
-</span><span id="main-144"><a href="#main-144"><span class="linenos">144</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="main-145"><a href="#main-145"><span class="linenos">145</span></a>    <span class="k">try</span><span class="p">:</span>
-</span><span id="main-146"><a href="#main-146"><span class="linenos">146</span></a>        <span class="n">check_port</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span>
-</span><span id="main-147"><a href="#main-147"><span class="linenos">147</span></a>        <span class="n">pool</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</span><span id="main-148"><a href="#main-148"><span class="linenos">148</span></a>        <span class="n">pool</span><span class="o">.</span><span class="n">apply_async</span><span class="p">(</span><span class="n">start_web</span><span class="p">,</span> <span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">))</span>
-</span><span id="main-149"><a href="#main-149"><span class="linenos">149</span></a>        <span class="n">pool</span><span class="o">.</span><span class="n">apply_async</span><span class="p">(</span><span class="n">open_url</span><span class="p">,</span> <span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">))</span>
-</span><span id="main-150"><a href="#main-150"><span class="linenos">150</span></a>        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</span><span id="main-151"><a href="#main-151"><span class="linenos">151</span></a>        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
-</span><span id="main-152"><a href="#main-152"><span class="linenos">152</span></a>    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-</span><span id="main-153"><a href="#main-153"><span class="linenos">153</span></a>        <span class="c1"># 退出时恢复手机充电状态</span>
-</span><span id="main-154"><a href="#main-154"><span class="linenos">154</span></a>        <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">getDeviceIds</span><span class="p">():</span>
-</span><span id="main-155"><a href="#main-155"><span class="linenos">155</span></a>            <span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;dumpsys battery set status 2&#39;</span>
-</span><span id="main-156"><a href="#main-156"><span class="linenos">156</span></a>            <span class="n">adb</span><span class="o">.</span><span class="n">shell</span><span class="p">(</span><span class="n">cmd</span><span class="o">=</span><span class="n">cmd</span><span class="p">,</span> <span class="n">deviceId</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
-</span><span id="main-157"><a href="#main-157"><span class="linenos">157</span></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Stop solox server success&#39;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="main-143"><a href="#main-143"><span class="linenos">143</span></a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">5000</span><span class="p">):</span>
+</span><span id="main-144"><a href="#main-144"><span class="linenos">144</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="main-145"><a href="#main-145"><span class="linenos">145</span></a><span class="sd">    启动入口</span>
+</span><span id="main-146"><a href="#main-146"><span class="linenos">146</span></a><span class="sd">    :param host: 0.0.0.0</span>
+</span><span id="main-147"><a href="#main-147"><span class="linenos">147</span></a><span class="sd">    :param port: 默认5000端口</span>
+</span><span id="main-148"><a href="#main-148"><span class="linenos">148</span></a><span class="sd">    :return:</span>
+</span><span id="main-149"><a href="#main-149"><span class="linenos">149</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="main-150"><a href="#main-150"><span class="linenos">150</span></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="main-151"><a href="#main-151"><span class="linenos">151</span></a>        <span class="n">check_port</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span>
+</span><span id="main-152"><a href="#main-152"><span class="linenos">152</span></a>        <span class="n">pool</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</span><span id="main-153"><a href="#main-153"><span class="linenos">153</span></a>        <span class="n">pool</span><span class="o">.</span><span class="n">apply_async</span><span class="p">(</span><span class="n">start_web</span><span class="p">,</span> <span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">))</span>
+</span><span id="main-154"><a href="#main-154"><span class="linenos">154</span></a>        <span class="n">pool</span><span class="o">.</span><span class="n">apply_async</span><span class="p">(</span><span class="n">open_url</span><span class="p">,</span> <span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">))</span>
+</span><span id="main-155"><a href="#main-155"><span class="linenos">155</span></a>        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="main-156"><a href="#main-156"><span class="linenos">156</span></a>        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</span><span id="main-157"><a href="#main-157"><span class="linenos">157</span></a>    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+</span><span id="main-158"><a href="#main-158"><span class="linenos">158</span></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;stop solox server success&#39;</span><span class="p">)</span>
+</span><span id="main-159"><a href="#main-159"><span class="linenos">159</span></a>    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+</span><span id="main-160"><a href="#main-160"><span class="linenos">160</span></a>        <span class="k">pass</span>
 </span></pre></div>
 
 
